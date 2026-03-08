@@ -45,4 +45,3 @@ npm run test
 
 [lil-course-url]: https://www.linkedin.com/learning/desarrollo-test-driven-con-inteligencia-artificial/
 [lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQHej0aEER_PAw/learning-public-crop_675_1200/B4EZgyFSYsGYAo-/0/1753186903903?e=2147483647&v=beta&t=UM660Q9Wgqa3nFrIcahWgIL2VX5OtgCI0CRdNfjr-II
-ok

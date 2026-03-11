@@ -39,4 +39,37 @@ describe('Contacto', () => {
         expect(emailInput).toHaveValue('')
         expect(messageInput).toHaveValue('')
     })
+
+    // tests covering validation helpers
+    it('Muestra error de nombre obligatorio al enviar formulario vacío', () => {
+        // sólo click en enviar sin rellenar nada
+        fireEvent.click(screen.getByText('Enviar Datos'))
+        expect(screen.getByText('El nombre es obligatorio')).toBeInTheDocument()
+    })
+
+    it('Muestra error de correo obligatorio al enviar sin email', () => {
+        // completar nombre y mensaje para aislar email
+        fireEvent.change(screen.getByLabelText('Nombre:'), { target: { value: 'Ana' } })
+        fireEvent.change(screen.getByLabelText('Mensaje:'), { target: { value: 'Hola' } })
+        fireEvent.click(screen.getByText('Enviar Datos'))
+        expect(screen.getByText('El correo electrónico es obligatorio')).toBeInTheDocument()
+    })
+
+    it('Muestra error de correo inválido cuando el formato es incorrecto', () => {
+        fireEvent.change(screen.getByLabelText('Nombre:'), { target: { value: 'Ana' } })
+        fireEvent.change(screen.getByLabelText('Mensaje:'), { target: { value: 'Hola' } })
+        fireEvent.change(screen.getByLabelText('Correo Electrónico:'), { target: { value: 'bad-email' } })
+        fireEvent.click(screen.getByText('Enviar Datos'))
+        expect(screen.getByText('El correo electrónico no es válido')).toBeInTheDocument()
+    })
+
+    it('No muestra errores cuando nombre y correo son válidos', () => {
+        fireEvent.change(screen.getByLabelText('Nombre:'), { target: { value: 'Ana' } })
+        fireEvent.change(screen.getByLabelText('Mensaje:'), { target: { value: 'Hola' } })
+        fireEvent.change(screen.getByLabelText('Correo Electrónico:'), { target: { value: 'ana@example.com' } })
+        fireEvent.click(screen.getByText('Enviar Datos'))
+        // se supone que no hay mensajes de error visibles
+        expect(screen.queryByText(/obligatorio/i)).toBeNull()
+        expect(screen.queryByText(/no es válido/i)).toBeNull()
+    })
 })
